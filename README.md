@@ -1,6 +1,8 @@
 # F1-Overtake-Predictor
 
-Neural Network predicting the number of overtakes during an F1 race using past data from Ergast API. As a passionate F1 fan, following the sport for over 10 years with my father, I have been working on this personal project to apply my Machine Learning leveraging real data to simulate race outcomes. All code and data can be found and should all run given the correct libraries being installed.
+Neural Network predicting the number of overtakes during an F1 race using past data from Ergast API. 
+
+As a passionate F1 fan, following the sport for over 10 years with my father, I have been working on this personal project to apply my Machine Learning skills, leveraging real data to simulate race outcomes. All code and data is linked and should all run given the correct libraries being installed.
 
 # 1 - Collecting Data
 
@@ -26,7 +28,7 @@ The neural network was created using the PyTorch library as a subclass of nn.Mod
 
 The csv file is imported, and split into the features and target data. We allocate a 80/20 split for training and test data. Data is them normalized and standardized to ensure consistency. Finally, it is converted to tensors for the model to work with.
 
-The learning rate is set to 0.1 which L2 regularization of 0.01. I also set up a scheduler to decrease the learning rate by half every 100 epochs to improve convergence.
+The learning rate is set to 0.1 which L2 regularization of 0.01. I also set up a scheduler to halve the learning rate every 100 epochs to improve convergence.
 
 In order to maximize the model's score I tried various network architecture to find out which worked best. I experimented with various numbers of hidden layers, normalization layers and dropout layers. Leaky Rely was used as an activation layer to avoid vanishing gradient. Weights were therefore initialized using He initialization as it works with ReLu activation functions. 
 
@@ -36,7 +38,7 @@ The model was trained over 1000 epochs which batch sizes of 16. Mean Absolute Er
 
 # 4 - Evaluation
 
-Below are the scores for 4 different model architectures each trained on the same data, in the same order, with the same learning rate and scheduler, and for the same number of epoch. The results were as follow:
+Below are the scores for 4 different model architectures each trained on the same data, in the same order, with the same learning rate and scheduler, and for the same number of epochs. The results were as follow:
 
 ![tt](https://github.com/user-attachments/assets/492416d4-e42e-4d20-966f-bb792d7fd11c)
 ![tf](https://github.com/user-attachments/assets/c56300aa-d100-4520-8a0c-c3f281859b27)
@@ -47,7 +49,7 @@ Finally, here is a loss graph for the optimal model:
 
 ![graph](https://github.com/user-attachments/assets/a6791a79-d12a-4364-9fdb-9c299378548d)
 
-# 5 - Conclusion
+# 5 - Conclusion and further work
 
-The main conclusion we can draw from experimenting with the models is that more complex architectures does not always mean better models. We notice that the architecture that yielded the best result had only one hidden layer and neither Dropout nor Layer Normalization. It is important to point out that the dataset is very small (only around 150 entries).
+The main conclusion we can draw from experimenting with the models is that more complex architectures does not always mean better models. We notice that the architecture that yielded the best result had only one hidden layer and neither Dropout nor Layer Normalization. It is important to point out that the dataset is very small (only around 150 entries). This project could be improved by finding a way to expand the dataset size to improve generability. It could also be wise to try ensemble methods such as a random forest and compare performance. 
 
