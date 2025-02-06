@@ -25,6 +25,8 @@ The neural network was created using the PyTorch library as a subclass of nn.Mod
 
 The csv file is imported, and split into the features and target data. We allocate a 80/20 split for training and test data. Data is them normalized and standardized to ensure consistency. Finally, it is converted to tensors for the model to work with.
 
+The learning rate is set to 0.1 which L2 regularization of 0.01. I also set up a scheduler to decrease the learning rate by half every 100 epochs to improve convergence.
+
 In order to maximize the model's score I tried various network architecture to find out which worked best. I experimented with various numbers of hidden layers, normalization layers and dropout layers. Leaky Rely was used as an activation layer to avoid vanishing gradient. Weights were therefore initialized using He initialization as it works with ReLu activation functions. 
 
 # 4 - Training 
