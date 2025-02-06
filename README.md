@@ -3,7 +3,7 @@ Neural Network predicting the number of overtakes during an F1 race using past d
 
 # 1 - Collecting Data
 
- All data was collected from the Ergast API through FastF1 for python. I chose to use all races from the 2014 season onwards as I felt races before the hybrid era may not align and cause inconsistencies with the model. For each race, the following features were extracted and appended to the dataframe in the following order:
+ All data was collected from the Ergast API through FastF1 for python. I had to use all races from the 2018 season onwards as the API could not fetch lap, driver and weather data for races before then. For each race, the following features were extracted and appended to the dataframe in the following order:
 
    - Nb of Overtakes (Int)
    - Country (String)
@@ -36,3 +36,9 @@ The model was trained over 1000 epochs which batch sizes of 16. Mean Absolute Er
 # - Evaluation
 
 Below are the scores for 4 different model architectures each trained on the same data, in the same order, with the same learning rate and scheduler, and for the same number of epoch. The results were as follow:
+
+![tt](https://github.com/user-attachments/assets/492416d4-e42e-4d20-966f-bb792d7fd11c)
+![tf](https://github.com/user-attachments/assets/c56300aa-d100-4520-8a0c-c3f281859b27)
+![ft](https://github.com/user-attachments/assets/bffcd538-8fcd-4ec1-b62b-3ee07ed2223f)
+![ff](https://github.com/user-attachments/assets/1d022e24-bbdb-4dab-8c84-c5b059db26a1)
+
