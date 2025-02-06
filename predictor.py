@@ -12,11 +12,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Load and split data
-data = pd.read_csv('prenorm.csv')
+data = pd.read_csv(r'Data\prenorm.csv')
 X_data = data.drop(['Overtakes', 'Country'], axis=1)
 Y_data = data['Overtakes']
 
-X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, random_state=42, test_size=0.2)
+X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, random_state=42, test_size=0.2) # Split 80/20
 
 print("Data split")
 
@@ -44,7 +44,7 @@ class OvertakePredictor(nn.Module):
         layers.append(nn.Linear(input_size, hidden_sizes[0]))
         if with_norm:
             layers.append(nn.LayerNorm(hidden_sizes[0]))  # Layer Normalization
-        layers.append(nn.LeakyReLU())
+        layers.append(nn.LeakyReLU()) # Activation
         if with_drop:
             layers.append(nn.Dropout(dropout_rate))  # Dropout after activation
 
@@ -52,7 +52,7 @@ class OvertakePredictor(nn.Module):
             layers.append(nn.Linear(hidden_sizes[i - 1], hidden_sizes[i]))
             if with_norm:
                 layers.append(nn.LayerNorm(hidden_sizes[i]))  # Layer Normalization
-            layers.append(nn.LeakyReLU())
+            layers.append(nn.LeakyReLU()) # Activation
             if with_drop:
                 layers.append(nn.Dropout(dropout_rate))  # Dropout after activation
 
@@ -61,7 +61,7 @@ class OvertakePredictor(nn.Module):
         self.network = nn.Sequential(*layers)
         self._initialize_weights()
 
-    def _initialize_weights(self):
+    def _initialize_weights(self): # He weight initialization
         for layer in self.network:
             if isinstance(layer, nn.Linear):
                 init.kaiming_normal_(layer.weight, nonlinearity='leaky_relu')
@@ -116,7 +116,9 @@ def evaluate():
 
         return (round(train_mae, 4), round(test_mae, 4))
 
-NORM = True
+# Set to have layer normalization or dropout layer.
+
+NORM = True 
 DROP = True
 
 if __name__ == '__main__':
