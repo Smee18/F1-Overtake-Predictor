@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 import torch
 import numpy as np
 from tabulate import tabulate
+import matplotlib.pyplot as plt
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -85,6 +86,8 @@ print("Batches created\n")
 
 
 def train_model(epochs):
+    epoch_losses = []  # Track loss per epoch
+
     for epoch in range(epochs):
         model.train()
         epoch_loss = 0
@@ -99,10 +102,16 @@ def train_model(epochs):
 
             epoch_loss += loss.item()  # Sum batch losses
 
-        scheduler.step()  # Update learning rate per epoch
+        epoch_loss /= len(train_loader)  # Average loss per epoch
+        epoch_losses.append(epoch_loss)  # Store epoch loss
+
+        scheduler.step()  # Update learning rate
 
         if epoch % 100 == 0:
-            print(f"Epoch {epoch} of {epochs} - Loss: {epoch_loss / len(train_loader):.4f} - LR: {scheduler.get_last_lr()[0]:.6f}")
+            print(f"Epoch {epoch} of {epochs} - Loss: {epoch_loss:.4f} - LR: {scheduler.get_last_lr()[0]:.6f}")
+
+    return epoch_losses  # Return losses per epoch
+
 
 
 def evaluate():
@@ -118,12 +127,14 @@ def evaluate():
 
 # Set to have layer normalization or dropout layer.
 
-NORM = True 
-DROP = True
+NORM = False 
+DROP = False
 
 if __name__ == '__main__':
     print(f"{X_data.head()}\n")
     print(f"{Y_data.head()}\n")
+
+    dif_losses = []
 
     print(f"Current parameters: LayerNorm - {NORM} | Dropout - {DROP}\n")
 
@@ -138,7 +149,8 @@ if __name__ == '__main__':
 
         print(f"Hidden layer setup {combo}")
 
-        train_model(epochs)
+        losses = train_model(epochs)
+        dif_losses.append(losses)
         print("\nTraining complete")
         a,b = evaluate()
         final_table.append((str(combo), a, b))
@@ -157,3 +169,10 @@ if __name__ == '__main__':
 
     print(f"Optimal layers - {optimal[0]}")
     print(f"Resulting MAES - {optimal[1]:.4f}, {optimal[2]:.4f}")
+
+    for elt in dif_losses:
+        plt.plot(range(epochs), elt)
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.title("Training Loss over Epochs")
+        plt.show()
